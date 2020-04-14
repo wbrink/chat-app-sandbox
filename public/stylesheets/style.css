@@ -179,7 +179,7 @@ form {
 
 /* chat textarea to type messages */
 textarea {
-  color: var(--custom-light2);
+  color: var(--custom-dark);
 }
 
 /* adds 10 pixels to margin bottom */
