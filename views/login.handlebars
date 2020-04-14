@@ -1,0 +1,76 @@
+{{> nav}}
+
+<main>
+    {{#if msg }}
+        {{#if error}}
+            <div class="feedback valign-wrapper custom-container error">
+                <i class="tiny material-icons helper-icon">info_outline</i>
+                <span class="valign-wrapper" data-error="wrong" data-success="right">{{ msg }}</span>
+            </div>
+        {{/if}}
+        {{#unless error}}
+            <div class="feedback valign-wrapper custom-container success">
+                <i class="tiny material-icons helper-icon">info_outline</i>
+                <span class="valign-wrapper" data-error="wrong" data-success="right">{{ msg }}</span>
+            </div>
+        {{/unless}}
+    {{/if}}
+
+    <div class="custom-container">
+
+        {{!-- sign in header --}}
+        <div class="row">
+            <div class="col s12 center-align">
+                <h4>Sign In</h4>
+            </div>
+        </div>
+
+        {{!--  --}}
+        <div class="row">
+            <form class="col s12 m10 pull-m1 push-m1 " action="/login" method="POST">
+                <!-- username field -->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">person</i>
+                        <input id="username" type="text" class="validate" minlength="4" maxlength="50" name="username" required>
+                        <label for="username" class="valign-wrapper">Username</label>
+                        <span class="helper-text" data-error="Invalid Username" data-success="Valid Username"></span>
+                    </div>
+                </div>
+
+                <!-- password field -->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">lock</i>
+                        <input id="password" type="password" class="validate" minlength="4" maxlength="50" name="password" required>
+                        <label for="password" class="valign-wrapper">Password</label>
+                        <div class="helper-div">
+                        <i class="tiny material-icons helper-icon">info_outline</i>
+                        <span class="helper-text valign-wrapper" data-error="wrong" data-success="right">Passwords Must be at least 6 characters long</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- submit -->
+                <div class="row">
+                    <div class="col s12">
+                        <button class="btn waves-effect waves-light " id="submit-button" type="submit" name="action">Sign In
+                        {{!-- <i class="material-icons right">send</i> --}}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="center-align" id="register-link">
+                    <div>New User?</div>
+                    <a href="/register">Create A Free Account Now</a>
+                </div>
+            </form>
+        </div>
+            
+
+    </div>
+</main>
+    
+
+{{> footer}}
+      

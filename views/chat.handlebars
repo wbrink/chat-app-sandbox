@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- <style>
+      
+    </style> -->
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <title>Login</title>
+</head>
+
+<body>
+
+  {{!-- partial for the header --}}
+  {{> nav}}
+
+  <main>
+
+    <div class="row" id="video-area">
+      <div class="col s12 m9 l9 xl9">
+        <div id="consultingRoom" class="video-container">
+          <video id="remoteVideo" autoplay></video>
+        </div>
+      </div>
+
+      <div class="col s12 m3 l3 xl3 chatWindow">
+        Chat Window
+      </div>
+    </div>
+
+    <!-- input and mutes -->
+    <div class="row valign-wrapper">
+      <form class="col s12 m8 l8 xl8" id="chatInput">
+        <div class="row">
+          <div class="input-field col">
+            <textarea id="chatTextarea" class="materialize-textarea"></textarea>
+            <label for="chatTextarea">Chat Here</label>
+          </div>
+        </div>
+      </form>
+
+      <div class="col s12 m4 l4 xl4  video" id="test">
+        <div id="consultingRoom" class="video-container">
+          <button id="goRoom">Start video & audio</button>
+          <video id="localVideo" autoplay></video>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="page-footer">
+    <div class="footer-copyright">
+      <div class="container">
+        © 2014 Copyright Text
+        <a class="grey-text text-lighten-4 right" href="/">Home</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- Compiled and minified JavaScript -->
+  <!-- <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="chat.js"></script>
+  <script src="client.js"></script>
+  
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.dropdown-trigger');
+        var instances = M.Dropdown.init(elems, { alignment: "bottom"});
+
+        // for materialize floating action buttons
+        var elems = document.querySelectorAll('.fixed-action-btn');
+        var instances = M.FloatingActionButton.init(elems);
+
+        // for the modals
+        var elems = document.querySelectorAll('.modal');
+        var instances = M.Modal.init(elems);
+        var modalOpen = document.querySelector("#view-participants");
+
+        var closeModal = document.querySelector("#exit-users");
+
+        closeModal.addEventListener('click', (e) => {
+          instances[0].close();
+        })
+
+        modalOpen.addEventListener('click', (e) => {
+          instances[0].open();
+        })
+      });
+  </script>
+
+</body>
+
+</html>

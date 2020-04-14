@@ -1,0 +1,188 @@
+// getting dom elements
+var divSelectRoom = document.getElementById("selectRoom");
+var divConsultingRoom = document.getElementById("consultingRoom");
+var inputRoomNumber = document.getElementById("roomNumber");
+var btnGoRoom = document.getElementById("goRoom");
+var localVideo = document.getElementById("localVideo");
+var remoteVideo = document.getElementById("remoteVideo");
+
+// variables
+var roomNumber;
+var localStream;
+var remoteStream;
+var rtcPeerConnection;
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const room = urlParams.get("room");
+var iceServers = {
+  iceServers: [
+    { urls: "stun:stun.services.mozilla.com" },
+    { urls: "stun:stun.l.google.com:19302" }
+  ]
+};
+
+var streamConstraints = { audio: false, video: true };
+// { width: 640, height: 480 }
+var isCaller;
+
+// // var socket = io("http://localhost:3000");
+// var socket = io();
+
+btnGoRoom.onclick = function() {
+  // if (inputRoomNumber.value === "") {
+  //   alert("Please type a room number");
+  // } else {
+  this.style.visibility = "hidden";
+  roomNumber = room;
+  console.log(roomNumber);
+
+  socket.emit("create or join", roomNumber);
+  console.log("clicked button");
+  // divSelectRoom.style = "display: none;";
+  divConsultingRoom.style = "display: block;";
+
+};
+
+// message handlers
+socket.on("created", function(room) {
+  navigator.mediaDevices
+    .getUserMedia(streamConstraints)
+    .then(function(stream) {
+      localStream = stream;
+      localVideo.srcObject = stream;
+      isCaller = true;
+    })
+    .catch(function(err) {
+      console.log("An error ocurred when accessing media devices", err);
+    });
+});
+
+socket.on("joined", function(room) {
+  navigator.mediaDevices
+    .getUserMedia(streamConstraints)
+    .then(function(stream) {
+      localStream = stream;
+      localVideo.srcObject = stream;
+      socket.emit("ready", roomNumber);
+    })
+    .catch(function(err) {
+      console.log("An error ocurred when accessing media devices", err);
+    });
+});
+
+socket.on("candidate", function(event) {
+  var candidate = new RTCIceCandidate({
+    sdpMLineIndex: event.label,
+    candidate: event.candidate
+  });
+  rtcPeerConnection.addIceCandidate(candidate);
+});
+
+socket.on("ready", function() {
+  if (isCaller) {
+    rtcPeerConnection = new RTCPeerConnection(iceServers);
+    rtcPeerConnection.onicecandidate = onIceCandidate;
+    rtcPeerConnection.ontrack = onAddStream;
+    rtcPeerConnection.addTrack(localStream.getTracks()[0], localStream);
+    rtcPeerConnection
+      .createOffer()
+      .then(sessionDescription => {
+        rtcPeerConnection.setLocalDescription(sessionDescription);
+        socket.emit("offer", {
+          type: "offer",
+          sdp: sessionDescription,
+          room: roomNumber
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+});
+
+socket.on("offer", function(event) {
+  if (!isCaller) {
+    rtcPeerConnection = new RTCPeerConnection(iceServers);
+    rtcPeerConnection.onicecandidate = onIceCandidate;
+    rtcPeerConnection.ontrack = onAddStream;
+    rtcPeerConnection.addTrack(localStream.getTracks()[0], localStream);
+    // rtcPeerConnection.addTrack(localStream.getTracks()[1], localStream);
+    rtcPeerConnection.setRemoteDescription(new RTCSessionDescription(event));
+    rtcPeerConnection
+      .createAnswer()
+      .then(sessionDescription => {
+        rtcPeerConnection.setLocalDescription(sessionDescription);
+        socket.emit("answer", {
+          type: "answer",
+          sdp: sessionDescription,
+          room: roomNumber
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+});
+
+socket.on("answer", function(event) {
+  rtcPeerConnection.setRemoteDescription(new RTCSessionDescription(event));
+});
+
+// // handler functions
+function onIceCandidate(event) {
+  if (event.candidate) {
+    console.log("sending ice candidate");
+    socket.emit("candidate", {
+      type: "candidate",
+      label: event.candidate.sdpMLineIndex,
+      id: event.candidate.sdpMid,
+      candidate: event.candidate.candidate,
+      room: roomNumber
+    });
+  }
+}
+
+function onAddStream(event) {
+  remoteVideo.srcObject = event.streams[0];
+  remoteStream = event.stream;
+}
+
+//Audio and video controls
+
+// const micOn = document.querySelector("#mic_off");
+// const micOff = document.querySelector("#mic_on");
+// const videocamOff = document.querySelector("#videocam_off");
+// const videocamOn = document.querySelector("#videocam_on");
+
+// document.addEventListener("DOMContentLoaded", function() {
+//   var elems = document.querySelectorAll(".dropdown-trigger");
+//   var instances = M.Dropdown.init(elems, { alignment: "bottom" });
+
+//   micOn.addEventListener("click", e => {
+//     // turn the mic back on
+
+//     micOn.classList.add("hide");
+//     micOff.classList.remove("hide");
+//   });
+
+//   micOff.addEventListener("click", e => {
+//     // turn the mic off
+
+//     micOn.classList.remove("hide");
+//     micOff.classList.add("hide");
+//   });
+
+//   videocamOn.addEventListener("click", e => {
+//     // turn the mic back on
+
+//     videocamOn.classList.add("hide");
+//     videocamOff.classList.remove("hide");
+//   });
+
+//   videocamOff.addEventListener("click", e => {
+//     // turn the mic off
+
+//     videocamOn.classList.remove("hide");
+//     videocamOff.classList.add("hide");
+//   });
+// });

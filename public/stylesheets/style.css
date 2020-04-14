@@ -1,0 +1,239 @@
+/* from before */
+form.signup,
+form.login {
+  margin-top: 50px;
+}
+
+/* setup color variables */
+:root {
+  --custom-dark: rgba(11, 19, 43, 1);
+  --custom-navy: rgba(28, 37, 65, 1);
+  --custom-blue: rgba(58, 80, 107, 1);
+  --custom-aqua: rgba(91, 192, 190, 1);
+  --custom-light: rgba(111, 255, 233, 1);
+  --custom-light2: rgb(238, 248, 246);
+  --custom-error: #f96167;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+/* so the footer goes to bottom of page */
+body {
+  background-color: lightgray;
+
+  color: var(--custom-black);
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+/* handlebars feedback message */
+.feedback {
+  padding: 5px;
+}
+
+/* navbar color */
+nav {
+  background-color: var(--custom-dark);
+}
+
+h4 {
+  color: var(--custom-dark);
+}
+
+/* div that houses logo icon and text */
+.logo {
+  display: flex;
+  margin-left: 15px;
+  font-size: 2rem;
+  color: var(--custom-light);
+}
+
+/* logo icon */
+.logo i {
+  margin-right: 10px;
+  color: var(--custom-light);
+}
+
+/* smaller container used for login and registration */
+.custom-container {
+  margin: auto;
+  margin-top: 30px;
+  max-width: 500px;
+  background-color: var(--custom-light2);
+  border-radius: 5px;
+}
+
+/* username dropdown */
+.dropdown-content {
+  top: 100% !important;
+}
+
+/*  */
+form {
+  margin-top: 15px;
+  color: var(--custom-dark);
+}
+
+/* helper div underneath input (gives feedback for validation) */
+.helper-div {
+  margin-left: 45px;
+  display: flex;
+  align-items: center;
+}
+
+/* input helper icon */
+.helper-icon {
+  margin-right: 5px;
+}
+
+/* lessen space between inputs */
+.input-field {
+  margin-bottom: 0px;
+}
+
+/* form submit buttons */
+#submit-button {
+  width: 100%;
+  margin-top: 5rem;
+  margin-bottom: 30px;
+}
+
+/* all buttons */
+.btn {
+  background-color: var(--custom-dark);
+  color: var(--custom-light);
+}
+
+/* button hover */
+.btn:hover {
+  background-color: var(--custom-light);
+  color: var(--custom-dark);
+}
+
+/* makes the page-footer class take up less space */
+.page-footer {
+  background-color: var(--custom-dark);
+  padding-top: 0px;
+}
+
+/* custom spacing for password input field */
+.password {
+  margin-top: 20px;
+}
+
+/* for chatpage */
+#video-area {
+  margin-top: 15px;
+  height: 70vh;
+}
+
+/* where the messages appear */
+.chatWindow {
+  height: 100%;
+  background-color: var(--custom-light2);
+  border: var(--custom-aqua) 1px solid;
+  padding: 7px;
+  border-radius: 5px;
+}
+
+/* where user inputs chat */
+#chatInput {
+  padding: 0;
+  background-color: var(--custom-light2);
+  border: var(--custom-navy) 1px solid;
+  padding: 7px;
+  border-radius: 5px;
+  max-height: 20%;
+}
+
+/* mute and video toggle */
+.video {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  color: var(--custom-light);
+}
+
+/* change background color to light aqua */
+.success {
+  background-color: var(--custom-light);
+}
+
+/* made for handlebars msgs */
+.error {
+  background-color: var(--custom-error);
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+/* chat textarea to type messages */
+textarea {
+  color: var(--custom-light2);
+}
+
+/* adds 10 pixels to margin bottom */
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+/* create new user link in login.handlebars */
+#register-link {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.bg-grey {
+  background-color: #e0e0e0;
+}
+
+#edit-profile-btn {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+@media screen and (min-width: 1400px) {
+  .brand-logo {
+    margin-left: 30px;
+  }
+}
+
+@media screen and (max-width: 1400px) {
+  .custom-container {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .chatWindow {
+    height: 50%;
+  }
+}
+
+#localVideo {
+  max-width: 100%;
+  min-height: 100%;
+}
+
+#remoteVideo {
+  max-width: 100%;
+  min-height: 100%;
+}
+
+#goRoom {
+  margin-top: 10px;
+}
