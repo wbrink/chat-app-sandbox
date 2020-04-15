@@ -8,6 +8,7 @@ const chatTextarea = document.querySelector("#chatTextarea");
 const chatWindow = document.querySelector("#chat-window");
 const modalContent = document.querySelector(".modal-content");
 
+
 // scroll top for chat window area
 var scrollTop = chatWindow.scrollTop;
 var scrollHeight = chatWindow.scrollHeight;
@@ -186,5 +187,3 @@ function formatAMPM(utcDateString) {
   var strTime = hours + ':' + minutes + ' ' + ampm;
   return strTime;
 }
-
-

@@ -1,8 +1,44 @@
+/* meeting ID container */
+#meetingID-container {
+  margin-top: 3px;
+  margin-left: 5px;
+  color: white;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  /* background-color: var(--custom-navy); */
+}
+
+#meetingID-container div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  padding-right: 5px;
+  padding-left: 5px;
+  background-color: var(--custom-dark);
+  height: 100%;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  /* cursor: pointer; */
+}
+
+/* #meetingID-container div:hover {
+  background-color: var(--custom-navy);
+  color: var(--custom-light);
+  border-radius: 10px;
+} */
+
+#meetingID-container span {
+  margin-right: 20px;
+}
+
 /* holds both the video and chatbox container */
 .video-chat-container {
   height: 65vh;
   background-color: lightgray;
   padding-top: 15px;
+  /* position: relative; */
 }
 
 #consultingRoom {
@@ -10,13 +46,36 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+#remoteVideo {
+  min-width: 100%;
+  object-fit: contain;
+}
+
+#localVideo {
+  position: absolute;
+  width: 150px;
+  bottom: 10px;
+  right: 10px;
 }
 
 /* sizing for the video elements */
-video {
-  margin: auto;
-  width: 75%;
+/* video {
+  min-width: 100%;
+  object-fit: contain;
 }
+
+#localVideo {
+  position: absolute;
+  object-fit: none;
+  max-width: 100px;
+  bottom: 10px;
+  right: 100px;
+} */
 
 /* gives container a height of 100% to match the parent elements height */
 .height-100 {
@@ -148,7 +207,7 @@ video {
 /*  */
 /*  */
 #show-users-menubar {
-  background-color: #153486;
+  background-color: var(--custom-navy);
   height: 25px;
   text-align: right;
   display: flex;
@@ -200,13 +259,40 @@ video {
   margin-bottom: 0px;
 }
 
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.block {
+  display: block;
+  width: 100%;
+  border: none;
+  background-color: var(--custom-blue);
+  padding: 10px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.block:hover {
+  background-color: var(--custom-navy);
+}
+
+.block:active {
+  background-color: var(--custom-dark);
+}
+
 @media screen and (max-width: 992px) {
-  #chat-window {
+  /* #chat-window {
     height: 30vh;
   }
   #remoteVideo {
     height: 30vh;
-  }
+  } */
 }
 
 @media screen and (max-width: 700px) {
@@ -229,5 +315,14 @@ video {
     font-size: 0.9rem;
     margin-left: 10px;
     padding-top: 4px;
+  }
+
+  /* meeting id text */
+  #meetingID-container {
+    font-size: 10px;
+  }
+
+  #localVideo {
+    width: 100px;
   }
 }
