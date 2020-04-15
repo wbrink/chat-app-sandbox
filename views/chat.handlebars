@@ -40,8 +40,8 @@
       <form class="col s12 m8 l8 xl8" id="chatInput">
         <div class="row">
           <div class="input-field col">
-            <textarea id="chatTextarea" class="materialize-textarea"></textarea>
-            <label for="chatTextarea">Chat Here</label>
+            <textarea id="textarea1" class="materialize-textarea"></textarea>
+            <label for="textarea1">Chat Here</label>
           </div>
         </div>
       </form>
@@ -70,34 +70,7 @@
   <!-- <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js"></script>
   <script src="/socket.io/socket.io.js"></script>
-  <script src="chat.js"></script>
   <script src="client.js"></script>
-  
-  <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        var elems = document.querySelectorAll('.dropdown-trigger');
-        var instances = M.Dropdown.init(elems, { alignment: "bottom"});
-
-        // for materialize floating action buttons
-        var elems = document.querySelectorAll('.fixed-action-btn');
-        var instances = M.FloatingActionButton.init(elems);
-
-        // for the modals
-        var elems = document.querySelectorAll('.modal');
-        var instances = M.Modal.init(elems);
-        var modalOpen = document.querySelector("#view-participants");
-
-        var closeModal = document.querySelector("#exit-users");
-
-        closeModal.addEventListener('click', (e) => {
-          instances[0].close();
-        })
-
-        modalOpen.addEventListener('click', (e) => {
-          instances[0].open();
-        })
-      });
-  </script>
 
 </body>
 

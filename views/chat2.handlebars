@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <link rel="stylesheet" href="/stylesheets/chatStyle.css">
+
+  <title>Chit-Chat</title>
+</head>
+<body>
+  {{> nav}}
+
+
+  <!-- main portion of the page -->
+  <main>
+    {{!-- <h1>WebRTC Video Conference</h1> --}}
+    <div class="row video-chat-container">
+      <div class="col s12 m12 l7 xl8">
+        <div id="selectRoom">
+          {{!-- <label>Type the room number</label>
+          <input id="roomNumber" type="text" /> --}}
+          <button id="goRoom">Go</button>
+        </div>
+
+        <div id="consultingRoom" style="display: none;">
+          <video id="localVideo" class="responsive-video" autoplay></video>
+          {{!-- <video id="remoteVideo" class="responsive-video" autoplay></video> --}}
+        </div>
+      </div>
+
+      {{!-- chat box --}}
+
+      <div class="col s12 m12 l5 xl4 height-100">
+        <div class="chat-container">
+          {{!-- chat window title --}}
+          <div id="chat-window-title">
+            Messages
+          </div>
+
+          {{!-- chat window holds the text messages --}}
+          <div id="chat-window"> 
+            <!-- example of what to append with javascript -->
+            <!-- <div class="entered-chat">username1 entered the chat</div> -->
+      
+            <!-- message from me-->
+            <!-- <div class="message me"> -->
+              <!-- <div class="message-name-me">username1</div> -->
+              <!-- <div class="message-text text-me">Hey!<span>7:30am</span></div> -->
+            <!-- </div> -->
+
+            <!-- joined chat -->
+            <!-- <div class="entered-chat">Bob entered the chat</div> -->
+
+            <!-- <div class="message"> -->
+              <!-- <div class="message-name">Will </div> -->
+              <!-- <div class="message-text">Hi<span>7:30am</span></div> -->
+            <!-- </div> -->
+          </div>
+
+          {{!-- button to view the participants --}}
+          <div id="view-participants">
+            <button class="btn waves-effect waves-light"><i class="material-icons left">people</i>View Participants</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{!-- end chat display row --}}
+
+
+    <div class="row">
+      <div class="col s12 m12 l7 xl8">
+        <div class="input-message col s12 mt-10">
+          <label for="chatTextarea">Enter Message</label>
+          <textarea id="chatTextarea" class="materialize-textarea" minlength="1" maxlength="200"></textarea>
+          {{!-- <label for="chatTextarea">Enter Message</label> --}}
+        </div>
+      </div>
+    </div>
+    
+    
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal">
+      <!-- custom menubar for modal -->
+      <div id="show-users-menubar">
+        <div id="exit-users"><i class="material-icons">close</i></div>
+      </div>
+      <div class="modal-content">
+        <h5>Users In Chat</h5>
+        <!-- example of what to append with app.js -->
+        <!-- <p class="participants">dean</p>  -->
+      </div>
+    </div>
+
+  </main>
+
+
+
+
+
+  {{> footer}}
+
+  <!-- materialize -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js"></script>
+
+  <!-- socket.io scripts -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="chat.js"></script>
+  <script src="client.js"></script>
+
+  <!-- materialize scripts for elements -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('.dropdown-trigger');
+      var instances = M.Dropdown.init(elems, { alignment: "bottom"});
+
+      // for materialize floating action buttons
+      var elems = document.querySelectorAll('.fixed-action-btn');
+      var instances = M.FloatingActionButton.init(elems);
+
+      // for the modals
+      var elems = document.querySelectorAll('.modal');
+      var instances = M.Modal.init(elems);
+      var modalOpen = document.querySelector("#view-participants");
+
+      var closeModal = document.querySelector("#exit-users");
+
+      closeModal.addEventListener('click', (e) => {
+        instances[0].close();
+      })
+
+      modalOpen.addEventListener('click', (e) => {
+        instances[0].open();
+      })
+    });
+  </script>
+</body>
+</html>

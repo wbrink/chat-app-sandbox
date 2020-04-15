@@ -1,57 +1,57 @@
 const queryStringChat = window.location.search;
 const urlParamsChat = new URLSearchParams(queryStringChat);
-
-const userChat = urlParamsChat.get("user");
 const roomChat = urlParamsChat.get("room");
+const userChat = urlParamsChat.get("user");
 
-var socket = io();
-
-
-socket.emit('joined chat', {room: roomChat, user:userChat});
-
+// elements for chat
 const chatTextarea = document.querySelector("#chatTextarea");
-const chatWindow = document.querySelector(".chatWindow");
-// const modalContent = document.querySelector(".modal-content");
-
-
-
+const chatWindow = document.querySelector("#chat-window");
+const modalContent = document.querySelector(".modal-content");
 
 // scroll top for chat window area
 var scrollTop = chatWindow.scrollTop;
 var scrollHeight = chatWindow.scrollHeight;
 var hasScrolled = false;
 
-
-
 // if user does enter+ shift down it will not submit the message from textarea
 var shiftDown = false;
 
 
+// this will be used for chat
+var socketText = io();
+
 // tells the server we have joined the chat
-socket.emit("join chat", {room: roomChat, user: userChat});
+socketText.emit("join chat", {room: roomChat, user: userChat});
 
 // recieves from server joined chat
-socket.on("joined chat", function(obj) {
+socketText.on("joined chat", function(obj) {
   let div = document.createElement("div");
   div.classList.add("entered-chat");
   div.textContent = `${obj.user} entered the chat`; // using textContent sanitizes someone trying to use html tags to style it ie <h1>hello</h1>
   chatWindow.append(div);
+  socketText.emit("get users", roomChat); // get the users in the room
 })
 
-
 // adds the participants to the modal area
-socket.on("users in room", function(arr) {
+socketText.on("users in room", function(arr) {
   console.log(`There are ${arr.length} users in the room`);
+  console.log(arr);
 
   // remove all children from modal area
-  // modalContent.innerHTML = "";
+  modalContent.innerHTML = "";
 
-  // arr.forEach(elem => {
-  //   const p = document.createElement("p");
-  //   p.classList.add("participant")
-  //   p.textContent = elem;
-  //   modalContent.append(p);
-  // })
+  // add h5 to the modal 
+  const h5 = document.createElement("h5");
+  h5.textContent = "Users in Chat";
+  modalContent.append(h5);
+
+  // append each user that is sent
+  arr.forEach(elem => {
+    const p = document.createElement("p");
+    p.classList.add("participant")
+    p.textContent = elem;
+    modalContent.append(p);
+  })
 
 })
 
@@ -116,12 +116,12 @@ function addMessageToChat() {
   chatWindow.append(divMessage);
 
   // send the message to those in the room
-  socket.emit("chat message", {room: roomChat, user: userChat, utc: utcDateString, msg: msg})
+  socketText.emit("chat message", {room: roomChat, user: userChat, utc: utcDateString, msg: msg})
 }
 
 
 // message from someone else in the room
-socket.on("chat message", function(obj) {
+socketText.on("chat message", function(obj) {
   let {room, user, utc, msg} = obj; // object destructuring
   
   let divMessage = document.createElement("div");
@@ -149,15 +149,13 @@ socket.on("chat message", function(obj) {
 
 
 // show that the user disconnected
-socket.on("user disconnected", function(obj) {
+socketText.on("user disconnected", function(obj) {
   let div = document.createElement("div");
   div.classList.add("entered-chat");
   div.textContent = `${obj.user} left the chat`; // using textContent sanitizes someone trying to use html tags to style it ie <h1>hello</h1>
   chatWindow.append(div);
 
 });
-
-
 
 
 // formats the date to give local time string 7:30 am and also the utc datestring for emitting to other sockets

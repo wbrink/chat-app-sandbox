@@ -3,16 +3,15 @@ module.exports = function(sequelize, DataTypes) {
     user: {
       type: DataTypes.STRING,
       allowNull: false,
-      // unique: true
+      unique: true
     },
     room: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     }
   }, {
     tableName: "chat"
-  }
-  );
+  });
   
   return Chat;
 };
